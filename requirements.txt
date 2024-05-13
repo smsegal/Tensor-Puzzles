@@ -1,4 +1,5 @@
 jupytext
+jaxtyping
 torchtyping
 hypothesis
 torch
@@ -6,3 +7,4 @@ numpy
 pytest
 notebookjs
 jupyter
+matplotlib

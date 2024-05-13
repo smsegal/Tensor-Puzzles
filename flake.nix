@@ -32,19 +32,36 @@
 
         devenv.shells.default = {
           name = "tensor-puzzles";
+          
+          packages = [
+            pkgs.ruff
+            pkgs.pyright
+            pkgs.nil
+            pkgs.wget
+          ];
 
-          languages.python = {
-            enable = pkgs.stdenv.isDarwin; 
-            version = "3.12";
-            venv.enable = true;
-            venv.requirements = builtins.readFile ./requirements.txt;
+          pre-commit.hooks = {
+            ruff.enable = true;
+            pyright.enable = true;
+            ruff-format = {
+              enable = true;
+              name = "Ruff Format";
+              entry = "${pkgs.ruff}/bin/ruff format";
+              types = ["python"];
+              language = "system";
+            };
           };
-
-          # https://devenv.sh/reference/options/
-          packages = [ config.packages.default ];
-
+          languages.python = {
+            enable = pkgs.stdenv.isDarwin;
+            version = "3.10";
+            venv.enable = true;
+            libraries = [];
+            venv.requirements = builtins.readFile ./requirements.txt; 
+          };
           enterShell = ''
+            which python
             python --version
+            # pip install -r requirements.txt
           '';
         };
 
